@@ -6,5 +6,6 @@ app=FastAPI()
 @app.get("/")
 def predict():
     return {
-        "Project":"Diabetes"
+        "Project":"Diabetes",
+        "model_saved": "pkl_file"
     }
