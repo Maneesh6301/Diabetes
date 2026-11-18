@@ -1,8 +1,8 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,status
 from pydantic import BaseModel
 
 
-def patient(BaseModel):
+class patient(BaseModel):
     gender:str
     age:float
     hypertension:int
@@ -11,11 +11,28 @@ def patient(BaseModel):
     HbA1c_level:float
     blood_glucose_level:int
 
-def result(BaseModel):
+class result(BaseModel):
     Prediction:int
 
 
 app=FastAPI()
-@app.post("/result/{gender,age,hypertension,smoking_history,bmi,HbA1c_level,blood_glucose_level}",response_model=result)
-def predict(gender:str,age:float,hypertension:int,smoking_history:str,bmi:float,HbA1c_level:float,blood_glucose_level:int):
-    return {2}
+@app.post("/result",response_model=result,status_code=status.HTTP_200_OK)
+def predict(patient:patient):
+    print(patient.age)
+    prediction=2
+    return {
+        "Prediction":prediction
+    }
+
+@app.get("/result",response_model=patient,status_code=status.HTTP_200_OK)
+def patient_details(patient:patient):
+    return {
+        "gender":gender,
+        "age":age,
+        "hypertension":hypertension,
+        "smoking_history":smoking_history,
+        "bmi":bmi,
+        "HbA1c_level":HbA1c_level,
+        "blood_glucose_level":blood_glucose_level
+    }
+
