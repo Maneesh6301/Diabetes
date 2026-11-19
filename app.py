@@ -1,19 +1,6 @@
 from fastapi import FastAPI,status
 from pydantic import BaseModel
-
-
-class patient(BaseModel):
-    gender:str
-    age:float
-    hypertension:int
-    smoking_history:str
-    bmi:float
-    HbA1c_level:float
-    blood_glucose_level:int
-
-class result(BaseModel):
-    Prediction:int
-
+from schemas import patient,result
 
 app=FastAPI()
 @app.post("/result",response_model=result,status_code=status.HTTP_200_OK)
