@@ -1,25 +1,35 @@
-from fastapi import FastAPI,status
+from fastapi import FastAPI,status,HTTPException
 from pydantic import BaseModel
-from schemas import patient,result
+from schemas import Patient,result
+import pickle
+
+with open("Diabetes_model.pkl","rb") as file:
+    model=pickle.load(file)
+Patients={}
+
+
 
 app=FastAPI()
-@app.post("/result",response_model=result,status_code=status.HTTP_200_OK)
-def predict(patient:patient):
-    print(patient.age)
-    prediction=2
+@app.post("/result/{Patient_id}",response_model=result,status_code=status.HTTP_200_OK)
+def predict(Patient_id:int,patient:Patient):
+    new_patient=Patient(**patient.model_dump())
+    if Patient_id in Patients:
+        raise HTTPException(status_code=409,detail="patient already existed")
+    Patients[Patient_id]=new_patient
+    input_data=[list(Patients.values())]
+    prediction=model.predict(input_data)
+
     return {
         "Prediction":prediction
     }
 
-@app.get("/result",response_model=patient,status_code=status.HTTP_200_OK)
-def patient_details(patient:patient):
-    return {
-        "gender":gender,
-        "age":age,
-        "hypertension":hypertension,
-        "smoking_history":smoking_history,
-        "bmi":bmi,
-        "HbA1c_level":HbA1c_level,
-        "blood_glucose_level":blood_glucose_level
-    }
+@app.get("/result",response_model=list[Patient],status_code=status.HTTP_200_OK)
+def patient_details():
+    return list(Patients.values())
 
+@app.get("/result/{Patient_id}",response_model=Patient,status_code=status.HTTP_200_OK)
+
+def patient_detail(Patient_id:int):
+    if Patient_id not in Patients:
+        raise HTTPException(status_code=404,detail="Patient not found")
+    return Patients[Patient_id]
