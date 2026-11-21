@@ -7,4 +7,5 @@ imbalanced-learn
 joblib
 fastapi
 uvicorn
+sqlalchemy
 -e .
