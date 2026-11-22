@@ -1,7 +1,7 @@
 from pydantic import BaseModel,ConfigDict
 
 
-class Patient(BaseModel):
+class Patient_details(BaseModel):
     gender:str
     age:float
     hypertension:int
