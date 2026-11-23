@@ -8,4 +8,5 @@ joblib
 fastapi
 uvicorn
 sqlalchemy
+mysql
 -e .
