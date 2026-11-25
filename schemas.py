@@ -3,9 +3,10 @@ from pydantic import BaseModel,ConfigDict
 
 class Patient_details(BaseModel):
     Patient_id:int
-    gender:str
-    age:float
-    hypertension:int
+    Gender:str
+    Age:float
+    Hypertension:int
+    heart_disease:int
     smoking_history:str
     bmi:float
     HbA1c_level:float

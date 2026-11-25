@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker,DeclarativeBase
 
-DATABASE_URL="mysql+pymysql://root:123@localhost:3306/Diabetes_db"
+DATABASE_URL="mysql+pymysql://root:123@localhost:3306/diabetes_db"
 
 engine=create_engine(DATABASE_URL,pool_pre_ping=True)
 
@@ -18,5 +18,5 @@ def get_db():
     db=SessionLocal()
     try:
         yield db
-    except:
+    finally:
         db.close()
