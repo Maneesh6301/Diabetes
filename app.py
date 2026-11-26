@@ -30,7 +30,8 @@ def patient_individual_details(Patient_id:int,db:Session=Depends(get_db)):
 def patient_all_details(db:Session=Depends(get_db)):
     Patients=db.query(Patient).all()
 
-    return Patients
+    return Patient
+
  
 
 
