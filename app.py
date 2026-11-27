@@ -9,8 +9,6 @@ import pickle
 with open("Diabetes_model.pkl","rb") as file:
     model=pickle.load(file)
 
-
-
 app=FastAPI()
 Base.metadata.create_all(bind=engine)
 @app.post("/result/{Patient_id}",response_model=Patient_details,status_code=status.HTTP_200_OK)
@@ -30,8 +28,15 @@ def patient_individual_details(Patient_id:int,db:Session=Depends(get_db)):
 def patient_all_details(db:Session=Depends(get_db)):
     Patients=db.query(Patient).all()
 
-    return Patient
+    return Patients
 
+@app.put("/result/{Patient_id}",response_model=Patient_details,status_code=status.HTTP_200_OK)
+def update_patient_details(Patient_id:int,Patient_details:Patient_details,db:Session=Depends(get_db)):
+    Patient=db.get(Patient,Patient_id)
+    if Patient is None:
+        raise HTTPException(status_code=404,detail="Patient not found")
+    Patient.Gender=Patient_details.Gender
+    
  
 
 
