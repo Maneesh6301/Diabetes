@@ -36,9 +36,14 @@ def update_patient_details(Patient_id:int,Patient_details:Patient_details,db:Ses
     if Patient is None:
         raise HTTPException(status_code=404,detail="Patient not found")
     Patient.Gender=Patient_details.Gender
+    Patient.Age=Patient_details.Age
+    Patient.Hypertension=Patient_details.Hypertension
+    Patient.heart_disease=Patient_details.heart_disease
+    Patient.smoking_history=Patient_details.smoking_history
+    Patient.bmi=Patient_details.bmi
+    Patient.HbA1c_level=Patient_details.HbA1c_level
+    Patient.blood_glucose_level=Patient_details.blood_glucose_level
     
- 
-
 
 
 
